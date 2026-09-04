@@ -1,9 +1,9 @@
 { self, inputs, ... }: {
   perSystem = { self', pkgs, ... }: {
-    packages.terminal = inputs.wrappers.lib.wrapPackage {
+    packages.terminal = inputs.wrapper-modules.lib.wrapPackage {
       inherit pkgs;
       package = self'.packages.zsh;
-      runtimeInputs = [
+      runtimePkgs = [
         pkgs.htop
         pkgs.zoxide
         pkgs.fzf

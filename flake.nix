@@ -6,7 +6,6 @@
     import-tree.url = "github:vic/import-tree";
 
     wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
-    wrappers.url = "github:Lassulus/wrappers";
 
     hjem = {
       url = "github:feel-co/hjem";
