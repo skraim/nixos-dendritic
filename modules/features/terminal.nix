@@ -7,6 +7,7 @@
         pkgs.htop
         pkgs.zoxide
         pkgs.fzf
+        pkgs.lazygit
       ];
     };
   };
