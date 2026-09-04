@@ -6,6 +6,7 @@
       runtimeInputs = [
         pkgs.htop
         pkgs.zoxide
+        pkgs.fzf
       ];
     };
   };
