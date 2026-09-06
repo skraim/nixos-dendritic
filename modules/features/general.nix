@@ -1,5 +1,5 @@
 { self, inputs, ... }: {
-  flake.nixosModules.general = { self', config }: {
+  flake.nixosModules.general = { self', config, ... }: {
     imports = [
       self.nixosModules.base
       self.nixosModules.xkb
@@ -16,8 +16,8 @@
         isNormalUser = true;
         description = "${config.preferences.user.name}'s account";
         extraGroups = [ "networkmanager" "wheel" "dialout" "ydotool" "libvirtd" "kvm" ];
+        initialPassword = "12345";
       };
-      initialPassword = "12345";
     };
   };
 }
