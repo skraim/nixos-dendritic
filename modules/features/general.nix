@@ -7,6 +7,7 @@
       self.nixosModules.networking
       self.nixosModules.nix
       self.nixosModules.sddm
+      self.nixosModules.hjem
     ];
 
     users = {
