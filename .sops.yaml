@@ -1,0 +1,7 @@
+keys:
+  - &artem age1h29dmx62kkhnnhewm67rue9chqv0xe6p057yapf8e2d77z4kq49sfyu8nx
+creation_rules:
+  - path_regex: secrets.(yaml|json|env|ini)$
+    key_groups:
+    - age:
+      - *artem
