@@ -6,17 +6,18 @@
       self.nixosModules.i18n
       self.nixosModules.networking
       self.nixosModules.nix
+      self.nixosModules.sddm
     ];
 
-    users.users.${config.preferences.user.name} = {
-      isNormalUser = true;
-      description = "${config.preferences.user.name}'s account";
-      extraGroups = ["wheel" "networkmanager"];
-      shell = self'.packages.zsh; #environment;
-
-      hashedPasswordFile = "/persist/passwd";
+    users = {
+      groups.libvirtd.members = [ "${config.preferences.user.name}" ];
+      defaultUserShell = self'.packages.zsh;
+      users.${config.preferences.user.name} = {
+        isNormalUser = true;
+        description = "${config.preferences.user.name}'s account";
+        extraGroups = [ "networkmanager" "wheel" "dialout" "ydotool" "libvirtd" "kvm" ];
+      };
       initialPassword = "12345";
     };
-
   };
 }

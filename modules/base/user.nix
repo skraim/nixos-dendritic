@@ -5,6 +5,10 @@
         type = lib.types.str;
         default = "artem";
       };
+      description = lib.mkOption {
+        type = lib.types.str;
+        default = "Artem";
+      };
     };
   };
 }
