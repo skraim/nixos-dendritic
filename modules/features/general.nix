@@ -1,5 +1,5 @@
 { self, inputs, ... }: {
-  flake.nixosModules.general = { self', config, ... }: {
+  flake.nixosModules.general = { config, pkgs, ... }: {
     imports = [
       self.nixosModules.base
       self.nixosModules.xkb
@@ -12,9 +12,9 @@
 
     users = {
       groups.libvirtd.members = [ "${config.preferences.user.name}" ];
-      defaultUserShell = self'.packages.zsh;
       users.${config.preferences.user.name} = {
         isNormalUser = true;
+        shell = self.packages.${pkgs.system}.zsh;
         description = "${config.preferences.user.name}'s account";
         extraGroups = [ "networkmanager" "wheel" "dialout" "ydotool" "libvirtd" "kvm" ];
         initialPassword = "12345";
