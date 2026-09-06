@@ -25,7 +25,7 @@
         modules = [
           {
             format = "{\#1}{\#keys}╭{$1}╮\u001b[76D {user-name-colored}{at-symbol-colored}{host-name-colored} 🖥  ";
-            type = "title"
+            type = "title";
           }
           {
             key = "{$2}{\#31}󰇄 host     ";
