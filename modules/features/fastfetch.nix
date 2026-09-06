@@ -40,6 +40,10 @@
             type = "kernel";
           }
           {
+            key = "{$2}{\#34}󰏗 packages ";
+            type = "packages";
+          };
+          {
             key = "{$2}{\#35} wm       ";
             type = "wm";
           }

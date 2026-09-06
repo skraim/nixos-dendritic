@@ -15,6 +15,7 @@
         pkgs.fzf
         pkgs.lazygit
         self'.packages.fastfetch
+        self'.packages.btop
       ];
     };
   };
