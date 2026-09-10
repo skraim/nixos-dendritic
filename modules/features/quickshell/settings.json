@@ -1,0 +1,64 @@
+{
+    "language": "en",
+    "custom_scripts_path": "~/scripts",
+    "cache_path": "~/.cache/quickshell",
+    "wallpapers_path": "~/Pictures/wallpapers",
+    "active_wallpaper_cmd": "awww query -j | jq -r 'first(.[].[]?.displaying.image // empty)'",
+    "wallpaper_cmd_dark": "matugen image $@ --source-color-index $((RANDOM % $(matugen image $@ --show-source-colors | wc -l)))",
+    "wallpaper_cmd_light": "matugen image $@ --source-color-index $((RANDOM % $(matugen image $@ --show-source-colors | wc -l))) -m light",
+    "vpns": [
+        {
+            "toggler_path": "$HOME/scripts/toggle-sc.sh",
+            "partial_gw_name": "smartcat",
+            "short_name": "Smartcat"
+        },
+        {
+            "toggler_path": "$HOME/scripts/toggle-snx.sh",
+            "partial_gw_name": "msccruises",
+            "short_name": "MSC Cruises"
+        },
+        {
+            "toggler_path": "$HOME/scripts/toggle-tailscale.sh",
+            "partial_gw_name": "tailscale",
+            "short_name": "Home Tailscale"
+        }
+    ],
+    "disconnect_vpns_path": "$HOME/scripts/vpn-disconnect.sh",
+    "calendar_first_day_of_week": 1,
+    "screens": [
+        "Chimei Innolux Corporation 0x1435",
+        "Xiaomi Corporation Mi Monitor"
+    ],
+    "main_screen": "Xiaomi Corporation Mi Monitor",
+    "max_notifications": {
+        "Chimei Innolux Corporation 0x1435": 2,
+        "Xiaomi Corporation Mi Monitor": 3
+    },
+    "powermune_monitor_columns": {
+        "Chimei Innolux Corporation 0x1435": 3,
+        "Xiaomi Corporation Mi Monitor": 6
+    },
+    "notification_center_ignore_apps": [
+        "satty",
+        "SNX",
+        "VPN",
+        "zsh",
+        "Shell"
+    ],
+    "distro_icon": "assets/nixos.svg",
+    "power_menu_cmds": {
+        "lock": "hyprlock",
+        "monitorOff": "sleep 0.5 && hyprctl dispatch 'hl.dsp.dpms({ action = \"off\" })'",
+        "suspend": "hyprshutdown -t 'Suspending...' --post-cmd systemctl suspend",
+        "logout": "hyprshutdown -t 'Logging out...'",
+        "reboot": "hyprshutdown -t 'Restarting...' --post-cmd 'reboot'",
+        "shutdown": "hyprshutdown -t 'Shutting down...' --post-cmd 'shutdown -P 0'"
+    },
+    "app_icons": {
+        "chromium-browser": "assets/chromium.svg",
+        "nm-connection-editor": "assets/NetworkManager.svg",
+        "preferences-system-network": "assets/NetworkManager.svg",
+        "drive-removable-media": "assets/drive-removable-media.png",
+        "orca-slicer": "assets/orca-slicer.png"
+    }
+}

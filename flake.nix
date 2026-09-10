@@ -6,6 +6,7 @@
     import-tree.url = "github:vic/import-tree";
 
     wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
+    wrappers.url = "github:Lassulus/wrappers";
 
     hjem = {
       url = "github:feel-co/hjem";
@@ -13,6 +14,10 @@
     };
     sops-nix = {
       url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

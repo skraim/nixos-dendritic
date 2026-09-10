@@ -3,6 +3,7 @@
     modules = [
       self.nixosModules.workstationNixosConfiguration
       inputs.sops-nix.nixosModules.sops
+      inputs.nix-index-database.nixosModules.default
     ];
   };
 }

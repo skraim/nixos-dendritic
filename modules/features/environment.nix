@@ -1,21 +1,24 @@
 { self, inputs, ... }: {
-  perSystem = { self', pkgs, ... }: {
-    packages.terminal = inputs.wrapper-modules.lib.wrapPackage {
-      inherit pkgs;
-      package = self'.packages.kitty;
-      runtimePkgs = [
-        self'.packages.zsh
-      ];
-    };
+  perSystem = { self', pkgs, lib, ... }: {
+    packages.terminal =
+      (inputs.wrappers.wrapperModules.kitty.apply {
+        inherit pkgs;
+        imports = [self.wrappersModules.kitty];
+        shell = lib.getExe self'.packages.sh;
+      }).wrapper;
 
-    packages.sh = inputs.wrapper-modules.lib.wrapPackage {
+    packages.sh = inputs.wrappers.lib.wrapPackage {
       inherit pkgs;
       package = self'.packages.zsh;
-      runtimePkgs = [
-        pkgs.fzf
-        pkgs.lazygit
+      runtimeInputs = with pkgs; [
+        fzf
+        lazygit
+        ripgrep
+        fd
+        neovim
         self'.packages.fastfetch
         self'.packages.btop
+        self'.packages.nh
       ];
     };
   };

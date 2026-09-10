@@ -1,0 +1,329 @@
+{
+    "common": {
+        "noMatches": "Немає збігів"
+    },
+    "audioOutputPicker": {
+        "search": "Пошук виходів...",
+        "unknownOutput": "Невідомий аудіовихід",
+        "empty": {
+            "noOutputs": "Аудіовиходи не знайдено"
+        }
+    },
+    "bluetoothPicker": {
+        "search": "Пошук пристроїв...",
+        "scanning": "Сканування...",
+        "nearbyScanning": "Поруч  -  сканування...",
+        "status": {
+            "connecting": "Підключення...",
+            "disconnecting": "Відключення...",
+            "connected": "Підключено",
+            "paired": "Спарено",
+            "nearby": "Поруч"
+        }
+    },
+    "cliphist": {
+        "search": "Пошук у буфері...",
+        "tabs": {
+            "text": "Текст",
+            "images": "Зображення"
+        },
+        "hints": {
+            "preview": "P - перегляд"
+        }
+    },
+    "dashboard": {
+        "tabs": {
+            "controls": "Керування",
+            "notifications": "Сповіщення",
+            "overview": "Огляд",
+            "media": "Медіа"
+        },
+        "notifications": {
+            "actions": {
+                "clearAll": "Очистити все",
+                "dnd": "Не турбувати"
+            },
+            "empty": "Немає сповіщень"
+        },
+        "media": {
+            "empty": {
+                "nothingPlaying": "Нічого не відтворюється",
+                "noPlayer": "Немає плеєра"
+            }
+        },
+        "overview": {
+            "sections": {
+                "today": "Сьогодні",
+                "calendar": "Календар"
+            },
+            "weather": {
+                "max": "Макс: {temp}°",
+                "min": "Мін: {temp}°",
+                "feels": "Відчувається як {temp}°",
+                "wind": "{speed} км/год",
+                "fetching": "Завантаження погоди...",
+                "noData": "Немає даних про погоду",
+                "conditions": {
+                    "clear_sky": "Ясне небо",
+                    "mainly_clear": "Переважно ясно",
+                    "partly_cloudy": "Мінлива хмарність",
+                    "overcast": "Хмарно",
+                    "fog": "Туман",
+                    "drizzle": "Мряка",
+                    "rain": "Дощ",
+                    "snow": "Сніг",
+                    "rain_showers": "Зливи",
+                    "snow_showers": "Снігові заряди",
+                    "thunderstorm": "Гроза",
+                    "cloudy": "Хмарно"
+                }
+            },
+            "calendar": {
+                "months": {
+                    "0": "Січень",
+                    "1": "Лютий",
+                    "2": "Березень",
+                    "3": "Квітень",
+                    "4": "Травень",
+                    "5": "Червень",
+                    "6": "Липень",
+                    "7": "Серпень",
+                    "8": "Вересень",
+                    "9": "Жовтень",
+                    "10": "Листопад",
+                    "11": "Грудень"
+                },
+                "weekdays": {
+                    "short": {
+                        "0": "Нд",
+                        "1": "Пн",
+                        "2": "Вт",
+                        "3": "Ср",
+                        "4": "Чт",
+                        "5": "Пт",
+                        "6": "Сб"
+                    }
+                }
+            }
+        },
+        "controls": {
+            "sections": {
+                "output": "Вивід",
+                "input": "Ввід",
+                "bluetooth": "Bluetooth",
+                "network": "Мережа",
+                "resources": "Ресурси"
+            },
+            "audio": {
+                "none": "Немає"
+            },
+            "bluetooth": {
+                "unknownDevice": "Невідомо",
+                "scan": "Сканувати",
+                "scanning": "Сканування...",
+                "noDevices": "Немає пристроїв",
+                "status": {
+                    "connected": "Підключено",
+                    "paired": "Спарено",
+                    "nearby": "Поруч"
+                }
+            },
+            "network": {
+                "ethernet": "Ethernet",
+                "wifi": "Wi-Fi",
+                "offline": "Офлайн",
+                "notConnected": "Не підключено",
+                "vpn": "VPN",
+                "disconnect": "Відключити"
+            },
+            "resources": {
+                "cpu": "CPU",
+                "ram": "RAM",
+                "disk": "Диск",
+                "temp": "Темп.",
+                "battery": "Бат."
+            },
+            "powerProfiles": {
+                "eco": "Еко",
+                "balanced": "Баланс",
+                "performance": "Швидкодія"
+            }
+        }
+    },
+    "launcher": {
+        "placeholders": {
+            "search": "Пошук...",
+            "run": "Запустити...",
+            "filterWallpapers": "Фільтр шпалер..."
+        },
+        "theme": {
+            "dark": "Темна",
+            "light": "Світла"
+        }
+    },
+    "ejectPicker": {
+        "title": "Відмонтувати пристрій",
+        "unmounting": "Відмонтування..."
+    },
+    "passGenerate": {
+        "title": {
+            "otp": "Новий OTP запис",
+            "password": "Новий пароль"
+        },
+        "examplePrefix": "напр."
+    },
+    "passMenu": {
+        "search": "Пошук паролів...",
+        "tabs": {
+            "general": "Загальні",
+            "otp": "OTP"
+        },
+        "hints": {
+            "extra": "^E - додатково",
+            "generate": "^G - згенерувати"
+        },
+        "extra": {
+            "password": "пароль",
+            "copyToClipboard": "Копіювати в буфер"
+        }
+    },
+    "powerMenu": {
+        "uptimeLabel": "Час роботи",
+        "actions": {
+            "lock": "Заблокувати",
+            "monitorOff": "Вимкнути монітор",
+            "suspend": "Сон",
+            "logout": "Вийти",
+            "reboot": "Перезавантажити",
+            "shutdown": "Вимкнути"
+        },
+        "confirm": {
+            "areYouSure": "Ви впевнені?",
+            "yes": "Так",
+            "no": "Ні"
+        }
+    },
+    "trayMenu": {
+        "back": "Назад"
+    },
+    "vmPicker": {
+        "search": "Пошук VM...",
+        "loading": "Завантаження...",
+        "empty": "Віртуальні машини не знайдено",
+        "status": {
+            "running": "Запущенo",
+            "paused": "Призупиненo",
+            "shut_off": "Вимкненo",
+            "starting": "Запускається",
+            "stopping": "Зупиняється",
+            "startingProgress": "Запуск...",
+            "stoppingProgress": "Зупинка..."
+        }
+    },
+    "vpnPicker": {
+        "search": "Пошук VPN...",
+        "status": {
+            "connecting": "Підключення...",
+            "disconnected": "Відключено"
+        },
+        "empty": {
+            "notConfigured": "VPN не налаштовано в settings.json"
+        }
+    },
+    "notifications": {
+        "shared": {
+            "selectionSpansMonitors": "Вибір охоплює кілька моніторів.",
+            "pathCopiedToClipboard": "Шлях скопійовано в буфер:"
+        },
+        "battery": {
+            "low": {
+                "title": "Низький заряд батареї",
+                "body": "Підключіть пристрій до живлення"
+            },
+            "critical": {
+                "title": "Критично низький заряд",
+                "body": "Зарядіть пристрій!"
+            }
+        },
+        "eject": {
+            "noDevices": {
+                "title": "Немає пристроїв",
+                "body": "Немає змонтованих знімних пристроїв"
+            },
+            "unmountFailed": {
+                "title": "Не вдалося відмонтувати",
+                "body": "Не вдалося відмонтувати {device}"
+            }
+        },
+        "passGenerate": {
+            "otpScanTimedOut": {
+                "title": "Час сканування OTP вичерпано",
+                "body": "QR-код не було захоплено"
+            }
+        },
+        "recording": {
+            "appName": "Запис екрана",
+            "cancelled": {
+                "title": "Запис скасовано"
+            },
+            "saved": {
+                "title": "Запис збережено"
+            }
+        },
+        "screenshot": {
+            "appName": "Знімок екрана",
+            "cancelled": {
+                "title": "Знімок скасовано"
+            },
+            "saved": {
+                "title": "Знімок збережено"
+            }
+        }
+    },
+    "whichKey": {
+        "groups": {
+            "window": "Вікно",
+            "pickers": "Пікери",
+            "browser": "Браузер",
+            "bar": "Панель",
+            "screen": "Екран"
+        },
+        "bindings": {
+            "window": {
+                "close": "Закрити вікно",
+                "kill": "Примусово закрити вікно"
+            },
+            "pickers": {
+                "bluetooth": "Bluetooth",
+                "wallpaper": "Шпалери",
+                "passmenu": "Паролі",
+                "virtualMachine": "Віртуальна машина",
+                "vpn": "VPN",
+                "audioOutput": "Аудіовихід",
+                "unmountDevice": "Відмонтувати пристрій"
+            },
+            "browser": {
+                "librewolf": "Librewolf",
+                "chromiumDl": "Chromium (DL)",
+                "chromiumGeneral": "Chromium (General)",
+                "chromium": "Chromium"
+            },
+            "screen": {
+                "screenshotClipboard": "Знімок -> буфер",
+                "screenshotAnnotate": "Знімок -> анотації",
+                "screenshotSave": "Знімок -> файл",
+                "recordNoMic": "Запис без звуку",
+                "recordMic": "Запис + мікрофон",
+                "recordSystemAudio": "Запис + системний звук",
+                "stopRecording": "Зупинити запис"
+            },
+            "bar": {
+                "systemTray": "Системний трей",
+                "notifications": "Сповіщення",
+                "controls": "Керування",
+                "overview": "Огляд",
+                "media": "Медіа"
+            }
+        }
+    }
+}

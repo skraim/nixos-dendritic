@@ -1,0 +1,5 @@
+return {
+  <* for name, value in colors *>
+    {{name}} = "{{value.default.hex_stripped}}",
+  <* endfor *>
+}
