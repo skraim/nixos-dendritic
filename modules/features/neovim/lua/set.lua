@@ -14,7 +14,7 @@ vim.o.wrap = false
 vim.o.swapfile = false
 vim.o.backup = false
 vim.o.undofile = true
-vim.o.undodir = os.getenv("HOME") .. "/.vim/undodir"
+vim.o.undodir = vim.fn.stdpath("data") .. "/undodir"
 
 vim.o.hlsearch = true
 vim.o.incsearch = true
