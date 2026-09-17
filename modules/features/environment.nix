@@ -12,13 +12,21 @@
       package = self'.packages.zsh;
       runtimeInputs = with pkgs; [
         fzf
-        lazygit
         ripgrep
         fd
-        neovim
+        # neovim
+        direnv
+        jq
+        tmuxp
+        tldr
+        self'.packages.lazygit
         self'.packages.fastfetch
         self'.packages.btop
         self'.packages.nh
+        self'.packages.yazi
+        self'.packages.less
+        self'.packages.bat
+        self'.packages.neovim
       ];
     };
   };

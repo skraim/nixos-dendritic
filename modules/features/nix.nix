@@ -1,6 +1,15 @@
-{ self, inputs, ... }: {
+{ self, inputs, lib, ... }: {
   flake.nixosModules.nix = {
-    nixpkgs.config.allowUnfree = true;
+    nixpkgs.config.allowUnfreePredicate = pkg:
+      builtins.elem (lib.getName pkg) [
+        "spotify"
+        "discord"
+        "discord-unwrapped"
+        "slack"
+        "steam"
+        "steam-unwrapped"
+        "claude-code"
+      ];
     nix = {
       gc = {
         automatic = true;
@@ -11,14 +20,6 @@
       settings = {
         experimental-features = [ "nix-command" "flakes" ];
         auto-optimise-store = true;
-        #         download-buffer-size = 500000000;
-        # substituters = [
-        #   "https://cache.nixos.org"
-        # ];
-        #
-        # trusted-public-keys = [
-        #   "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-        # ];
       };
     };
   };

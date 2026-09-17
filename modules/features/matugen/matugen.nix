@@ -43,11 +43,6 @@
         flags = {
           "-c" = matugenConfig;
         };
-        # runtimeInputs = [
-        #   self'.packages.hyprsunset
-        #   pkgs.hyprland-per-window-layout
-        #   inputs.awww.packages.${pkgs.stdenv.hostPlatform.system}.awww
-        # ];
       };
     };
 }

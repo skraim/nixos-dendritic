@@ -17,11 +17,39 @@
         self.nixosModules.bluetooth
         self.nixosModules.cadAnd3dPrinting
         self.nixosModules.smb
+        self.nixosModules.chromium
+        self.nixosModules.ai
+        self.nixosModules.sshConfig
+        self.nixosModules.handlr
       ];
 
       networking.hostName = "ws-nixos";
-      preferences.vpns.ts.enable = true;
-
+      preferences = {
+        vpns.ts.enable = true;
+        quickshell.settings = {
+          browsers = [
+            {
+              name = "Chromium";
+              launch_cmd = "chromium";
+              wk_key = "C";
+            }
+          ];
+        };
+        monitors = [
+          {
+            name = "eDP-1";
+            scale = "1.2";
+          }
+          {
+            name = "desc:Xiaomi Corporation Mi Monitor";
+            width = 3440;
+            height = 1440;
+            refreshRate = 100;
+            x = 1600;
+            y = -50;
+          }
+        ];
+      };
       boot = {
         loader =
           {
@@ -29,15 +57,12 @@
             systemd-boot.enable = true;
             efi.canTouchEfiVariables = true;
           };
-
         kernelParams = [ "i915.enable_guc=3" ];
         kernelPackages = pkgs.linuxPackages_latest;
       };
-
       programs = {
         nix-index-database.comma.enable = true;
       };
-
       hardware = {
         enableRedistributableFirmware = true;
         graphics = {
@@ -49,107 +74,27 @@
           ];
         };
       };
-  #   bluetooth = {
-  #     enable = true;
-  #     powerOnBoot = true;
-  #     settings = {
-  #       General = {
-  #         Experimental = true;
-  #         FastConnectable = true;
-  #       };
-  #       Policy = {
-  #         AutoEnable = true;
-  #         ReconnectAttempts = 0;
-  #       };
-  #     };
-  #   };
-  # };
-
-        services = {
-  #   pcscd.enable = true;
-  #   udisks2.enable = true;
-    upower.enable = true;
-  #   gnome.gnome-keyring.enable = true;
-  #   xl2tpd.enable = true;
-  #   libinput.enable = true;
-    power-profiles-daemon.enable = true;
-  #   tailscale.enable = true;
-  #   strongswan = {
-  #     enable = true;
-  #     secrets = [
-  #       "ipsec.d/ipsec.nm-l2tp.secrets"
-  #     ];
-  #   };
-    xserver = {
-      videoDrivers = [ "modesetting" ];
-    };
-  };
-  environment = {
-  #   etc = {
-  #     "strongswan.conf".text = ''
-  #       charon {
-  #         filelog {
-  #           charon {
-  #             path = /var/log/charon.log
-  #             default = 2
-  #           }
-  #         }
-  #       }
-  #     '';
-  #
-  #     "ipsec.secrets".text = ''
-  #     '';
-  #   };
-  #
-  #   variables = {
-  #     QML2_IMPORT_PATH = "${pkgs.qt6.qt5compat}/lib/qt-6/qml:${pkgs.qt6.qtbase}/lib/qt-6/qml";
-  #   };
-  #
-    sessionVariables = {
-  #     QT_QPA_PLATFORM = "wayland;xcb";
-  #     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-      LIBVA_DRIVER_NAME = "iHD";
-      # NIXOS_OZONE_WL = "1";
-    };
-  #
-  #   shells = [ pkgs.zsh ];
-    systemPackages = with pkgs; [
-  #     cifs-utils
-  #     (python313.withPackages (ps: with ps; [ dbus-next pycryptodome ]))
-      intel-compute-runtime
-      brightnessctl
-  #     expect
-  #     pinentry-qt
-  #     pavucontrol
-  #     nettools
-  #     glib
-  #     lsof
-  #     unzip
-  #     gcc_multi
-  #     libxml2
-  #     wl-clip-persist
-  #     git
-  #     udiskie
-  #     imagemagick
-  #     cargo
-  #     nh
-  #     libnotify
-  #     # networkmanagerapplet
-  #     sddm-astronaut
-  #     cachix
-  #     kitty
-  #     spnavcfg
-  #     ripgrep
-  #     fd
-  #     qtcreator
-  #     # inputs.matugen.packages.${system}.default
-  #     virt-viewer
-    ];
-  #   # pathsToLink = [ "/share/applications" "/share/xdg-desktop-portal" ];
-  };
-
-
-
+      services = {
+        upower.enable = true;
+        power-profiles-daemon.enable = true;
+        xserver = {
+          videoDrivers = [ "modesetting" ];
+        };
+      };
+      environment = {
+        sessionVariables = {
+          LIBVA_DRIVER_NAME = "iHD";
+        };
+        systemPackages = with pkgs; [
+          intel-compute-runtime
+          brightnessctl
+          slack
+          self.packages.${pkgs.stdenv.hostPlatform.system}.ironkey-unlock
+        ];
+      };
+      xdg.mime.defaultApplications = {
+        "application/pdf" = "chromium-browser.desktop";
+      };
       sops = {
         age.sshKeyPaths = [ "${homeDir}/.ssh/id_ed25519_personal" ];
         defaultSopsFile = "${self.outPath}/secrets.yaml";

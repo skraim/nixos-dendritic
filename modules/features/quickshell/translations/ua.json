@@ -302,12 +302,6 @@
                 "audioOutput": "Аудіовихід",
                 "unmountDevice": "Відмонтувати пристрій"
             },
-            "browser": {
-                "librewolf": "Librewolf",
-                "chromiumDl": "Chromium (DL)",
-                "chromiumGeneral": "Chromium (General)",
-                "chromium": "Chromium"
-            },
             "screen": {
                 "screenshotClipboard": "Знімок -> буфер",
                 "screenshotAnnotate": "Знімок -> анотації",

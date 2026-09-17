@@ -42,12 +42,7 @@ Scope {
             "browser": {
                 title: Localization.t("whichKey.groups.browser", "Browser"),
                 icon: "\ue051",
-                bindings: [
-                    { key: "L", label: Localization.t("whichKey.bindings.browser.librewolf", "Librewolf") },
-                    { key: "D", label: Localization.t("whichKey.bindings.browser.chromiumDl", "Chromium (DL)") },
-                    { key: "G", label: Localization.t("whichKey.bindings.browser.chromiumGeneral", "Chromium (General)") },
-                    { key: "C", label: Localization.t("whichKey.bindings.browser.chromium", "Chromium") }
-                ]
+                bindings: Settings.browsers.map(browser => ({ key: browser.wk_key, label: browser.name }))
             },
             "bar": {
                 title: Localization.t("whichKey.groups.bar", "Bar"),
@@ -112,6 +107,7 @@ Scope {
             target: WhichKeyService
             function onVisibleChanged() {
                 if (WhichKeyService.visible) {
+                    if (win.triggerSoleBinding()) return
                     groupTransition.stop()
                     col.opacity = 1
                     popup.behaviorEnabled = false
@@ -144,6 +140,115 @@ Scope {
         function runCommand(cmd) {
             Quickshell.execDetached(["setsid", "bash", "-c", cmd])
             WhichKeyService.dismiss()
+        }
+
+        // Execute a group's sole binding before opening the WhichKey panel.
+        // A binding with multiple keys (such as the system tray selector) uses
+        // its first key, unless its action declines to run.
+        function triggerSoleBinding() {
+            const bindings = win.activeGroup?.bindings || []
+            if (bindings.length !== 1) return false
+
+            const binding = bindings[0]
+            const key = binding.key || (binding.keys && binding.keys[0])
+            const scanCode = Globals.scanCodes[key]
+            if (scanCode === undefined) return false
+
+            const event = { nativeScanCode: scanCode, accepted: false }
+            win.triggerGroupBinding(WhichKeyService.group, event)
+            return event.accepted
+        }
+
+        function triggerGroupBinding(grp, event) {
+            const sc = Globals.scanCodes
+
+            if (grp === "window") {
+                if (event.nativeScanCode === sc['C']) {
+                    win.runCommand("killactive.sh")
+                    event.accepted = true
+                } else if (event.nativeScanCode === sc['K']) {
+                    win.runCommand("forcekillactive.sh")
+                    event.accepted = true
+                }
+
+            } else if (grp === "browser") {
+                for (const browser of Settings.browsers) {
+                    const scanCode = sc[browser.wk_key]
+                    if (scanCode !== undefined && event.nativeScanCode === scanCode) {
+                        win.runCommand(browser.launch_cmd)
+                        event.accepted = true
+                        break
+                    }
+                }
+
+            } else if (grp === "picker") {
+                if (event.nativeScanCode === sc['B']) {
+                    WhichKeyService.dismiss(); BluetoothPickerService.show(); event.accepted = true
+                } else if (event.nativeScanCode === sc['W']) {
+                    WhichKeyService.dismiss(); WallpaperSwitcherService.toggle(); event.accepted = true
+                } else if (event.nativeScanCode === sc['P']) {
+                    WhichKeyService.dismiss(); PassMenuService.toggle(); event.accepted = true
+                } else if (event.nativeScanCode === sc['M']) {
+                    WhichKeyService.dismiss(); VMPickerService.show(); event.accepted = true
+                } else if (event.nativeScanCode === sc['V']) {
+                    WhichKeyService.dismiss(); VPNPickerService.show(); event.accepted = true
+                } else if (event.nativeScanCode === sc['O']) {
+                    WhichKeyService.dismiss(); AudioOutputPickerService.show(); event.accepted = true
+                } else if (event.nativeScanCode === sc['U']) {
+                    WhichKeyService.dismiss(); EjectPickerService.show(); event.accepted = true
+                }
+
+            } else if (grp === "bar") {
+                if (event.nativeScanCode >= 10 && event.nativeScanCode <= 18) {
+                    const idx = event.nativeScanCode - 10
+                    const trayItems = SystemTray.items.values
+                    if (idx >= trayItems.length || !trayItems[idx].hasMenu) return
+                    win.trayNavMode = true
+                    BarNavigationService.requestTrayMenu(idx)
+                    event.accepted = true
+                } else if (event.nativeScanCode === sc['N']) {
+                    WhichKeyService.dismiss(); DashboardService.show(1); event.accepted = true
+                } else if (event.nativeScanCode === sc['C']) {
+                    WhichKeyService.dismiss(); DashboardService.show(0); event.accepted = true
+                } else if (event.nativeScanCode === sc['O']) {
+                    WhichKeyService.dismiss(); DashboardService.show(2); event.accepted = true
+                } else if (event.nativeScanCode === sc['M']) {
+                    WhichKeyService.dismiss(); DashboardService.show(3); event.accepted = true
+                }
+
+            } else if (grp === "screen") {
+                const ts    = "$(date +%F_%H-%M-%S)"
+                const shots = "$HOME/Pictures/Screenshots"
+                const shotFile = `${shots}/${ts}-shot.png`
+                const screenshotAppName = win.shellQuote(Localization.t("notifications.screenshot.appName", "Screenshot"))
+                const cancelledTitle = win.shellQuote(Localization.t("notifications.screenshot.cancelled.title", "Screenshot cancelled"))
+                const savedTitle = win.shellQuote(Localization.t("notifications.screenshot.saved.title", "Screenshot saved"))
+                const multiMonitorBody = win.shellQuote(Localization.t("notifications.shared.selectionSpansMonitors", "Selection spans multiple monitors."))
+                const savedBodyPrefix = win.shellDoubleQuotedPrefix(Localization.t("notifications.shared.pathCopiedToClipboard", "Path copied to clipboard:"))
+                const guardedSlurp = (payload) =>
+                    `geom=$(slurp ${Globals.slurpArgs}) || exit 1; ` +
+                    `read X Y W H <<<"$(echo "$geom" | sed 's/[,x]/ /g')"; ` +
+                    `if ! hyprctl monitors -j | jq -e --argjson x $X --argjson y $Y --argjson w $W --argjson h $H ` +
+                        `'any(.[]; (.x <= $x) and (.y <= $y) and ((.x + (.width/.scale)) >= ($x+$w)) and ((.y + (.height/.scale)) >= ($y+$h)))' >/dev/null; then ` +
+                        `notify-send -a ${screenshotAppName} ${cancelledTitle} ${multiMonitorBody}; exit 1; ` +
+                    `fi; ` + payload
+                if (event.nativeScanCode === sc['C']) {
+                    win.runCommand(guardedSlurp(`grim -g "$geom" - | wl-copy`)); event.accepted = true
+                } else if (event.nativeScanCode === sc['A']) {
+                    win.runCommand(guardedSlurp(`grim -g "$geom" - | satty -f -`)); event.accepted = true
+                } else if (event.nativeScanCode === sc['S']) {
+                    win.runCommand(guardedSlurp(`out="${shotFile}"; grim -g "$geom" "$out" && printf '%s' "$out" | wl-copy && notify-send -a ${screenshotAppName} ${savedTitle} "${savedBodyPrefix} $out"`)); event.accepted = true
+                } else if (event.nativeScanCode === sc['R']) {
+                    WhichKeyService.dismiss(); RecordingService.record(""); event.accepted = true
+                } else if (event.nativeScanCode === sc['M']) {
+                    WhichKeyService.dismiss(); RecordingService.record("--audio"); event.accepted = true
+                } else if (event.nativeScanCode === sc['D']) {
+                    const sinkMonitor = Pipewire.defaultAudioSink ? Pipewire.defaultAudioSink.name + ".monitor" : ""
+                    WhichKeyService.dismiss(); RecordingService.record(sinkMonitor ? `--audio --audio-device "${sinkMonitor}"` : "--audio"); event.accepted = true
+                } else if (event.nativeScanCode === sc['X']) {
+                    WhichKeyService.dismiss(); RecordingService.stop(); event.accepted = true
+                }
+            }
         }
 
         function shellQuote(value) {
@@ -238,141 +343,7 @@ Scope {
                     return
                 }
 
-                // ── Normal group handling ─────────────────────────────────────
-                const grp = WhichKeyService.group
-                const sc  = Globals.scanCodes
-
-                if (grp === "window") {
-                    if (event.nativeScanCode === sc['C']) {
-                        win.runCommand("~/scripts/killactive.sh")
-                        event.accepted = true
-                    } else if (event.nativeScanCode === sc['K']) {
-                        win.runCommand("~/scripts/forcekillactive.sh")
-                        event.accepted = true
-                    }
-
-                } else if (grp === "browser") {
-                    if (event.nativeScanCode === sc['L']) {
-                        win.runCommand("librewolf")
-                        event.accepted = true
-                    } else if (event.nativeScanCode === sc['D']) {
-                        win.runCommand('chromium --profile-directory="Profile 1"')
-                        event.accepted = true
-                    } else if (event.nativeScanCode === sc['G']) {
-                        win.runCommand('chromium --profile-directory="Default"')
-                        event.accepted = true
-                    } else if (event.nativeScanCode === sc['C']) {
-                        win.runCommand("chromium")
-                        event.accepted = true
-                    }
-
-                } else if (grp === "picker") {
-                    if (event.nativeScanCode === sc['B']) {
-                        WhichKeyService.dismiss()
-                        BluetoothPickerService.show()
-                        event.accepted = true
-                    } else if (event.nativeScanCode === sc['W']) {
-                        WhichKeyService.dismiss()
-                        WallpaperSwitcherService.toggle()
-                        event.accepted = true
-                    } else if (event.nativeScanCode === sc['P']) {
-                        WhichKeyService.dismiss()
-                        PassMenuService.toggle()
-                        event.accepted = true
-                    } else if (event.nativeScanCode === sc['M']) {
-                        WhichKeyService.dismiss()
-                        VMPickerService.show()
-                        event.accepted = true
-                    } else if (event.nativeScanCode === sc['V']) {
-                        WhichKeyService.dismiss()
-                        VPNPickerService.show()
-                        event.accepted = true
-                    } else if (event.nativeScanCode === sc['O']) {
-                        WhichKeyService.dismiss()
-                        AudioOutputPickerService.show()
-                        event.accepted = true
-                    } else if (event.nativeScanCode === sc['U']) {
-                        WhichKeyService.dismiss()
-                        EjectPickerService.show()
-                        event.accepted = true
-                    }
-
-                } else if (grp === "bar") {
-                    // Digit keys 1–9: XKB keycodes 10–18
-                    if (event.nativeScanCode >= 10 && event.nativeScanCode <= 18) {
-                        const idx = event.nativeScanCode - 10
-                        const trayItems = SystemTray.items.values
-                        if (idx >= trayItems.length || !trayItems[idx].hasMenu) return
-                        win.trayNavMode = true
-                        BarNavigationService.requestTrayMenu(idx)
-                        event.accepted = true
-                        // WhichKey stays open — keys are now forwarded to TrayMenuPopup
-                    } else if (event.nativeScanCode === sc['N']) {
-                        WhichKeyService.dismiss()
-                        DashboardService.show(1)  // Inbox
-                        event.accepted = true
-                    } else if (event.nativeScanCode === sc['C']) {
-                        WhichKeyService.dismiss()
-                        DashboardService.show(0)  // Controls
-                        event.accepted = true
-                    } else if (event.nativeScanCode === sc['O']) {
-                        WhichKeyService.dismiss()
-                        DashboardService.show(2)  // Overview
-                        event.accepted = true
-                    } else if (event.nativeScanCode === sc['M']) {
-                        WhichKeyService.dismiss()
-                        DashboardService.show(3)  // Media
-                        event.accepted = true
-                    }
-
-                } else if (grp === "screen") {
-                    const ts    = "$(date +%F_%H-%M-%S)"
-                    const shots = "$HOME/Pictures/Screenshots"
-                    const shotFile = `${shots}/${ts}-shot.png`
-                    const screenshotAppName = win.shellQuote(Localization.t("notifications.screenshot.appName", "Screenshot"))
-                    const cancelledTitle = win.shellQuote(Localization.t("notifications.screenshot.cancelled.title", "Screenshot cancelled"))
-                    const savedTitle = win.shellQuote(Localization.t("notifications.screenshot.saved.title", "Screenshot saved"))
-                    const multiMonitorBody = win.shellQuote(Localization.t("notifications.shared.selectionSpansMonitors", "Selection spans multiple monitors."))
-                    const savedBodyPrefix = win.shellDoubleQuotedPrefix(Localization.t("notifications.shared.pathCopiedToClipboard", "Path copied to clipboard:"))
-                    // Run slurp, then verify the selection fits inside a single
-                    // monitor's logical bounds (via hyprctl + jq). If it spans
-                    // multiple monitors, notify and abort. `payload` runs with
-                    // $geom set to "X,Y WxH".
-                    const guardedSlurp = (payload) =>
-                        `geom=$(slurp ${Globals.slurpArgs}) || exit 1; ` +
-                        `read X Y W H <<<"$(echo "$geom" | sed 's/[,x]/ /g')"; ` +
-                        `if ! hyprctl monitors -j | jq -e --argjson x $X --argjson y $Y --argjson w $W --argjson h $H ` +
-                            `'any(.[]; (.x <= $x) and (.y <= $y) and ((.x + (.width/.scale)) >= ($x+$w)) and ((.y + (.height/.scale)) >= ($y+$h)))' >/dev/null; then ` +
-                            `notify-send -a ${screenshotAppName} ${cancelledTitle} ${multiMonitorBody}; exit 1; ` +
-                        `fi; ` + payload
-                    if (event.nativeScanCode === sc['C']) {
-                        win.runCommand(guardedSlurp(`grim -g "$geom" - | wl-copy`))
-                        event.accepted = true
-                    } else if (event.nativeScanCode === sc['A']) {
-                        win.runCommand(guardedSlurp(`grim -g "$geom" - | satty -f -`))
-                        event.accepted = true
-                    } else if (event.nativeScanCode === sc['S']) {
-                        win.runCommand(guardedSlurp(`out="${shotFile}"; grim -g "$geom" "$out" && printf '%s' "$out" | wl-copy && notify-send -a ${screenshotAppName} ${savedTitle} "${savedBodyPrefix} $out"`))
-                        event.accepted = true
-                    } else if (event.nativeScanCode === sc['R']) {
-                        WhichKeyService.dismiss()
-                        RecordingService.record("")
-                        event.accepted = true
-                    } else if (event.nativeScanCode === sc['M']) {
-                        WhichKeyService.dismiss()
-                        RecordingService.record("--audio")
-                        event.accepted = true
-                    } else if (event.nativeScanCode === sc['D']) {
-                        const sinkMonitor = Pipewire.defaultAudioSink ? Pipewire.defaultAudioSink.name + ".monitor" : ""
-                        WhichKeyService.dismiss()
-                        RecordingService.record(sinkMonitor ? `--audio --audio-device "${sinkMonitor}"` : "--audio")
-                        event.accepted = true
-                    } else if (event.nativeScanCode === sc['X']) {
-                        WhichKeyService.dismiss()
-                        RecordingService.stop()
-                        event.accepted = true
-                    }
-                }
+                win.triggerGroupBinding(WhichKeyService.group, event)
             }
         }
 

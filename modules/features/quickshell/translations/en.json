@@ -302,12 +302,6 @@
                 "audioOutput": "Audio Output",
                 "unmountDevice": "Unmount device"
             },
-            "browser": {
-                "librewolf": "Librewolf",
-                "chromiumDl": "Chromium (DL)",
-                "chromiumGeneral": "Chromium (General)",
-                "chromium": "Chromium"
-            },
             "screen": {
                 "screenshotClipboard": "Screenshot -> clipboard",
                 "screenshotAnnotate": "Screenshot -> annotate",

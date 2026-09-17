@@ -18,6 +18,22 @@
         "type": "github"
       }
     },
+    "haunt-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787066690,
+        "narHash": "sha256-YTkvj8roh8IHouq4SVRThye1AYoRlb355cdpRnuc7m8=",
+        "owner": "TheNoeTrevino",
+        "repo": "haunt.nvim",
+        "rev": "c973175dda88236ecda342fd3654b5dc4f6b7764",
+        "type": "github"
+      },
+      "original": {
+        "owner": "TheNoeTrevino",
+        "repo": "haunt.nvim",
+        "type": "github"
+      }
+    },
     "hjem": {
       "inputs": {
         "nixpkgs": [
@@ -50,6 +66,22 @@
       "original": {
         "owner": "vic",
         "repo": "import-tree",
+        "type": "github"
+      }
+    },
+    "java-debug": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1788591342,
+        "narHash": "sha256-baI2Gs00QFIsma1zmBzbLH+ZaN/MCgwOQKpACFFQ2g4=",
+        "owner": "microsoft",
+        "repo": "java-debug",
+        "rev": "d532902a19a398b2822f17ca9ee30922c0f69bf2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "microsoft",
+        "repo": "java-debug",
         "type": "github"
       }
     },
@@ -139,11 +171,14 @@
     "root": {
       "inputs": {
         "flake-parts": "flake-parts",
+        "haunt-nvim": "haunt-nvim",
         "hjem": "hjem",
         "import-tree": "import-tree",
+        "java-debug": "java-debug",
         "nix-index-database": "nix-index-database",
         "nixpkgs": "nixpkgs",
         "sops-nix": "sops-nix",
+        "tiny-code-action": "tiny-code-action",
         "wrapper-modules": "wrapper-modules",
         "wrappers": "wrappers"
       }
@@ -165,6 +200,22 @@
       "original": {
         "owner": "Mic92",
         "repo": "sops-nix",
+        "type": "github"
+      }
+    },
+    "tiny-code-action": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1777075455,
+        "narHash": "sha256-UF9zeO5Uujdt2MEwy2d2Lhk6JRnEN4vrEvYslv0/zaA=",
+        "owner": "rachartier",
+        "repo": "tiny-code-action.nvim",
+        "rev": "0d040ed81f7953118b81cd12681fcdfcac069803",
+        "type": "github"
+      },
+      "original": {
+        "owner": "rachartier",
+        "repo": "tiny-code-action.nvim",
         "type": "github"
       }
     },

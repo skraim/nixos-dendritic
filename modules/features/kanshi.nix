@@ -6,7 +6,14 @@
     };
   };
 
-  perSystem = {pkgs, ...}: {
+  perSystem = {pkgs, ...}: let
+    dockedMonitorSetup = pkgs.writeShellScript "kanshi-docked-monitor-setup" ''
+      line=$(awww query | grep -m1 "eDP-1")
+      path=''${line##*image:}
+      hyprctl keyword monitor "eDP-1,1920x1200,0x0,1.2"
+      [ "$path" != "$line" ] && [ -n "$path" ] && awww img "''${path# }"
+    '';
+  in {
     # todo: replace hardcoded monitor data (use ./base./*)
     packages.kanshi =
       (inputs.wrappers.wrapperModules.kanshi.apply {
@@ -20,12 +27,7 @@
           profile docked {
             output "eDP-1"
             output "*"
-            exec bash -c '
-              line=$(awww query | grep -m1 "eDP-1")
-              path=''${line##*image:}
-              hyprctl keyword monitor "eDP-1,1920x1200,0x0,1.2"
-              [ "$path" != "$line" ] && [ -n "$path" ] && awww img "''${path# }"
-            '
+            exec ${dockedMonitorSetup}
           }
         '';
       }).wrapper;

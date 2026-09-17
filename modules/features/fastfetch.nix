@@ -1,4 +1,7 @@
 { inputs, ... }:
+let
+  esc = builtins.fromJSON "\"\\u001b\"";
+in
 {
   perSystem = { pkgs, ... }: {
     packages.fastfetch = inputs.wrapper-modules.wrappers.fastfetch.wrap {
@@ -19,12 +22,12 @@
           };
           constants = [
             "───────────────────────────────────────────────────────────────────────────"
-            "│\u001b[75C│\u001b[75D"
+            "│${esc}[75C│${esc}[75D"
           ];
         };
         modules = [
           {
-            format = "{\#1}{\#keys}╭{$1}╮\u001b[76D {user-name-colored}{at-symbol-colored}{host-name-colored} 🖥  ";
+            format = "{\#1}{\#keys}╭{$1}╮${esc}[76D {user-name-colored}{at-symbol-colored}{host-name-colored} 🖥  ";
             type = "title";
           }
           {

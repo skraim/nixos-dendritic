@@ -1,0 +1,91 @@
+CONFIG_FILE="../mvn-deploy-data"
+
+if [ ! -f "$CONFIG_FILE" ]; then
+    echo "Error: Configuration file '$CONFIG_FILE' not found!"
+    exit 1
+fi
+
+source "$CONFIG_FILE"
+
+execute_maven() {
+    local port=$1
+    local skip_tests=$2
+    
+    local cmd="mvn clean install"
+    
+    if [ "$skip_tests" = true ]; then
+        cmd="$cmd -DskipTests=true"
+    fi
+    
+    cmd="$cmd -Daem.port=$port -P $PROFILES"
+    
+    echo "Executing: $cmd"
+    eval $cmd
+}
+
+TARGET=""
+RUN_TESTS=""
+
+for arg in "$@"; do
+    case "$arg" in
+        publish)
+            TARGET="publish"
+            ;;
+        author-cloud)
+            TARGET="author-cloud"
+            ;;
+        author)
+            TARGET="author-cloud"
+            ;;
+        author-onprem)
+            TARGET="author-onprem"
+            ;;
+        test)
+            RUN_TESTS="with"
+            ;;
+        *)
+            echo "Unknown argument: $arg"
+            echo "Usage:"
+            echo "  dep                    - deploy to default instance"
+            echo "  dep publish            - deploy to publish instance"
+            echo "  dep publish test       - deploy to publish instance with tests"
+            echo "  dep author             - deploy to author instance"
+            echo "  dep author-cloud test  - deploy to author-cloud instance with tests"
+            echo "  dep test author-onprem - deploy to author-on-prem instance with tests"
+            echo "  dep test               - deploy to author instance with tests"
+            exit 1
+            ;;
+    esac
+done
+
+if [ -z "$TARGET" ]; then
+    TARGET="$DEFAULT_INS"
+fi
+
+if [ -z "$RUN_TESTS" ]; then
+    RUN_TESTS="without"
+fi
+
+case "$TARGET" in
+    publish)
+        if [ "$RUN_TESTS" = "with" ]; then
+            execute_maven "$PUBLISH_PORT" false
+        else
+            execute_maven "$PUBLISH_PORT" true
+        fi
+        ;;
+    author-cloud)
+        if [ "$RUN_TESTS" = "with" ]; then
+            execute_maven "$AUTHOR_CLOUD_PORT" false
+        else
+            execute_maven "$AUTHOR_CLOUD_PORT" true
+        fi
+        ;;
+    author-onprem)
+        if [ "$RUN_TESTS" = "with" ]; then
+            execute_maven "$AUTHOR_ONPREM_PORT" false
+        else
+            execute_maven "$AUTHOR_ONPREM_PORT" true
+        fi
+        ;;
+esac

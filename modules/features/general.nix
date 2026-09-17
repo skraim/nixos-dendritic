@@ -13,6 +13,8 @@
         self.nixosModules.ly
         self.nixosModules.pipewire
         self.nixosModules.wlClipboard
+        self.nixosModules.gnuPG
+        self.nixosModules.git
       ];
 
       fonts.packages = [
@@ -40,7 +42,6 @@
         lsof
         unzip
         gcc_multi
-        git # todo: make wrapper
         imagemagick
         cargo
       ];

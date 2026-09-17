@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  perSystem = { pkgs, ... }: {
+  perSystem = { self', pkgs, ... }: {
     packages.zsh = inputs.wrapper-modules.wrappers.zsh.wrap {
       inherit pkgs;
 
@@ -55,7 +55,7 @@
         zle -N edit-command-line
 
         export FZF_DEFAULT_OPTS="--style minimal --color 16 --layout reverse --height 40% --preview='bat -p --color=always {}'"
-        export MANPAGER="/bin/sh -c 'col -bx | bat -l man -p'"
+        export MANPAGER="/bin/sh -c 'col -bx | ${self'.packages.bat}/bin/bat -l man -p'"
         export MANROFFOPT="-c"
         export TERM="xterm-256color"
         typeset -a AUTO_NOTIFY_IGNORE=(docker man sleep yazi yy nvim lazygit lg tmux tmuxp gpg bluetui bc claude codex btop rmpc systemctl)
@@ -66,6 +66,15 @@
         HISTSIZE=10000
         SAVEHIST=10000
         setopt HIST_FCNTL_LOCK APPEND_HISTORY EXTENDED_HISTORY HIST_EXPIRE_DUPS_FIRST HIST_FIND_NO_DUPS HIST_IGNORE_DUPS HIST_IGNORE_SPACE NO_HIST_IGNORE_ALL_DUPS NO_HIST_SAVE_NO_DUPS NO_SHARE_HISTORY GLOB_DOTS HIST_REDUCE_BLANKS
+
+        function yy() {
+          local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+          yazi "$@" --cwd-file="$tmp"
+          if cwd="$(command \cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+              builtin cd -- "$cwd"
+          fi
+          rm -f -- "$tmp"
+        }
 
         source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
         source ${pkgs.zsh-autosuggestions}/share/zsh-autosuggestions/zsh-autosuggestions.zsh

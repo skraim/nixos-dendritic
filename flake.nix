@@ -20,6 +20,19 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    java-debug = {
+      url = "github:microsoft/java-debug";
+      flake = false;
+    };
+    haunt-nvim = {
+      url = "github:TheNoeTrevino/haunt.nvim";
+      flake = false;
+    };
+    tiny-code-action = {
+      url = "github:rachartier/tiny-code-action.nvim";
+      flake = false;
+    };
   };
 
   outputs = inputs: inputs.flake-parts.lib.mkFlake {inherit inputs;} (inputs.import-tree ./modules);

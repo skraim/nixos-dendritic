@@ -25,6 +25,7 @@ Singleton {
     property var    powerMenuMonitorColumns: ({})
     property var    notificationCenterIgnoreApps: []
     property var    appIcons:           ({})
+    property var    browsers:           []
     property string distroIcon:         ""
     property int    calendarFirstDayOfWeek: 1
     property var    powerMenuCmds:      ({
@@ -64,6 +65,7 @@ Singleton {
                 root.powerMenuMonitorColumns = s.power_menu_monitor_columns || s.powermune_monitor_columns || {}
                 root.notificationCenterIgnoreApps = s.notification_center_ignore_apps || []
                 root.appIcons           = s.app_icons            || {}
+                root.browsers           = s.browsers             || []
                 root.distroIcon         = s.distro_icon          || ""
                 root.calendarFirstDayOfWeek = Math.max(0, Math.min(6, s.calendar_first_day_of_week ?? root.calendarFirstDayOfWeek))
                 root.powerMenuCmds      = s.power_menu_cmds      || root.powerMenuCmds

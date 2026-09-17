@@ -1,8 +1,5 @@
 { self, inputs, ... }: {
   flake.wrappersModules.kitty = { config, lib, ... }: {
-    # let
-    #   homeDir = config.hjem.users.${config.preferences.user.name}.directory;
-    # in {
       options.shell = lib.mkOption {
         type = lib.types.str;
         default = "";
@@ -20,7 +17,6 @@
           enable_audio_bell = "no";
           shell_integration = "enabled";
           cursor_trail = 1;
-          cursor_text_color = "#31748f";
           map = [
             "kitty_mod+a scroll_line_up"
             "kitty_mod+h scroll_line_down"
@@ -31,6 +27,7 @@
         extraSettings = ''
           include $HOME/.config/kitty/current-theme.conf
           include $HOME/.config/kitty/background-color.conf
+          cursor                   #31748f
         '';
       };
     };

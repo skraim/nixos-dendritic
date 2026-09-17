@@ -1,22 +1,24 @@
 {
   flake.nixosModules.base = {lib, ...}: {
     options.preferences.monitors = lib.mkOption {
-      type = lib.types.attrsOf (lib.types.submodule {
+      type = lib.types.listOf (lib.types.submodule {
         options = {
-          primary = lib.mkOption {
-            type = lib.types.bool;
-            default = false;
+          name = lib.mkOption {
+            type = lib.types.str;
+            default = "";
           };
           width = lib.mkOption {
-            type = lib.types.int;
+            type = lib.types.nullOr lib.types.int;
+            default = null;
             example = 1920;
           };
           height = lib.mkOption {
-            type = lib.types.int;
+            type = lib.types.nullOr lib.types.int;
+            default = null;
             example = 1080;
           };
           refreshRate = lib.mkOption {
-            type = lib.types.float;
+            type = lib.types.number;
             default = 60;
           };
           x = lib.mkOption {
@@ -30,10 +32,6 @@
           scale = lib.mkOption {
             type = lib.types.str;
             default = "auto";
-          };
-          enabled = lib.mkOption {
-            type = lib.types.bool;
-            default = true;
           };
         };
       });

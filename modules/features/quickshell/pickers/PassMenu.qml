@@ -103,9 +103,10 @@ Scope {
         Process {
             id: passLoader
             running: true
-            command: ["sh", "-c",
-                "find \"${PASSWORD_STORE_DIR}\" -type f -name '*.gpg' 2>/dev/null " +
-                "| sed \"s|${PASSWORD_STORE_DIR}/||; s|\\.gpg$||\" | sort"
+            command: ["bash", "-c",
+                "PREFIX=\"${PASSWORD_STORE_DIR:-$HOME/.password-store}\"; " +
+                "find \"$PREFIX\" -type f -name '*.gpg' 2>/dev/null " +
+                "| sed \"s|$PREFIX/||; s|\\.gpg$||\" | sort"
             ]
             stdout: SplitParser {
                 onRead: function(line) {

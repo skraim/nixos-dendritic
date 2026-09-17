@@ -4,7 +4,7 @@
       inherit pkgs;
       package = pkgs.nh;
       env = {
-        "NH_FLAKE" = "$HOME/nixos-dendritic"; # todo: change path
+        NH_FLAKE = "$HOME/nixos";
       };
     };
   };
