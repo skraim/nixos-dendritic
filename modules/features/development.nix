@@ -15,7 +15,6 @@
       };
     };
     environment.systemPackages = with pkgs; [
-      expect
       maven
       self.packages.${pkgs.stdenv.hostPlatform.system}.dep
     ];

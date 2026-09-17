@@ -10,15 +10,15 @@ source "$CONFIG_FILE"
 execute_maven() {
     local port=$1
     local skip_tests=$2
-    
+
     local cmd="mvn clean install"
-    
+
     if [ "$skip_tests" = true ]; then
         cmd="$cmd -DskipTests=true"
     fi
-    
+
     cmd="$cmd -Daem.port=$port -P $PROFILES"
-    
+
     echo "Executing: $cmd"
     eval $cmd
 }

@@ -738,7 +738,6 @@
         };
         misc = {
           data = with pkgs; [
-            vimPlugins.tabout-nvim
             vimPlugins.nvim-window-picker
             vimPlugins.sidekick-nvim
             vimPlugins.trouble-nvim
@@ -750,7 +749,12 @@
           config =
             #lua
             ''
-              require("which-key").setup({ preset = "modern" })
+              local whichKey = require('which-key')
+              whichKey.setup({ preset = "modern" })
+              vim.keymap.set("n", "<leader>?", function()
+                whichKey.show({ global = true })
+              end, { desc = "Which-key global mapping"})
+
               require("trouble").setup {
                 keys = {
                   ["<c-x>"] = "jump_split"
@@ -789,8 +793,6 @@
                 use_default_keymaps = false,
               })
               vim.keymap.set('n', '<leader>m', treesj.toggle)
-
-              require('tabout').setup({})
             '';
         };
         haunt-nvim = {

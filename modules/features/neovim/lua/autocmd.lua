@@ -43,7 +43,9 @@ vim.api.nvim_create_autocmd("BufRead", {
 vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
   group = vim.api.nvim_create_augroup("active_cursorline", { clear = true }),
   callback = function()
-    vim.opt_local.cursorline = true
+    if not vim.startswith(vim.bo.filetype, "snacks_picker") then
+      vim.opt_local.cursorline = true
+    end
   end,
 })
 
