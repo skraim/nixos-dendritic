@@ -73,7 +73,10 @@
             ".local/share/nvim"
             ".password-store"
             ".ssh"
-            ".gnupg"
+            {
+              directory = ".gnupg";
+              mode = "0700";
+            }
           ];
 
           files = [
