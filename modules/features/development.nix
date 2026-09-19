@@ -1,9 +1,5 @@
-{ self, inputs, ... }: {
+{ self, ... }: {
   flake.nixosModules.development = { config, pkgs, ... }: {
-    imports = [
-      self.nixosModules.tmux
-    ];
-
     programs = { 
       java.enable = true;
       npm = {

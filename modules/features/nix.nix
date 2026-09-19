@@ -9,6 +9,8 @@
         "steam"
         "steam-unwrapped"
         "claude-code"
+        "nvidia-x11"
+        "nvidia-settings"
       ];
     nix = {
       gc = {

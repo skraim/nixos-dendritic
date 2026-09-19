@@ -14,6 +14,7 @@
       self.nixosModules.wlClipboard
       self.nixosModules.gnuPG
       self.nixosModules.git
+      self.nixosModules.tmux
     ];
 
     fonts.packages = [
