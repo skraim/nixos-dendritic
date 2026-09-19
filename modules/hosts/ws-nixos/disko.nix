@@ -1,10 +1,10 @@
 {
-  flake.diskoConfigurations.playstationNixos = {
+  flake.diskoConfigurations.workstationNixos = {
     disko.devices = {
       disk = {
         main = {
           type = "disk";
-          device = "/dev/disk/by-id/nvme-KINGSTON_SKC2500M8500G_50026B72825CF846";
+          device = "/dev/disk/by-id/nvme-WD_PC_SN810_SDCPNRY-1T00-1006_224650802469";
           content = {
             type = "gpt";
             partitions = {

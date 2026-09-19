@@ -21,6 +21,8 @@
         self.nixosModules.ai
         self.nixosModules.sshConfig
         self.nixosModules.handlr
+        self.diskoConfigurations.workstationNixos
+        self.nixosModules.preservation
       ];
 
       networking.hostName = "ws-nixos";

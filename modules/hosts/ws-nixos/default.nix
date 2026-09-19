@@ -4,6 +4,8 @@
       self.nixosModules.workstationNixosConfiguration
       inputs.sops-nix.nixosModules.sops
       inputs.nix-index-database.nixosModules.default
+      inputs.disko.nixosModules.disko
+      inputs.preservation.nixosModules.default
     ];
   };
 }
