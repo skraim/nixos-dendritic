@@ -10,7 +10,7 @@
     dockedMonitorSetup = pkgs.writeShellScript "kanshi-docked-monitor-setup" ''
       line=$(awww query | grep -m1 "eDP-1")
       path=''${line##*image:}
-      hyprctl keyword monitor "eDP-1,1920x1200,0x0,1.2"
+      hyprctl dispatch 'hl.dsp(hl.monitor({ output="eDP-1", mode="1920x1200@100Hz", position="0x0", scale = 1.2 }))'
       [ "$path" != "$line" ] && [ -n "$path" ] && awww img "''${path# }"
     '';
   in {
@@ -21,7 +21,7 @@
         configFile.content = ''
           profile undocked {
             output "eDP-1"
-            exec hyprctl keyword monitor "eDP-1,1920x1200,0x0,1"
+            exec hyprctl dispatch 'hl.dsp(hl.monitor({ output="eDP-1", mode="1920x1200@100Hz", position="0x0", scale = 1 }))'
           }
 
           profile docked {
