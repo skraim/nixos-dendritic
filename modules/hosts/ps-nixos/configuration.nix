@@ -26,6 +26,8 @@
       self.nixosModules.ai
       self.nixosModules.sshConfig
       self.nixosModules.handlr
+      self.diskoConfigurations.playstationNixos
+      self.nixosModules.preservation
     ];
 
     networking.hostName = "ps-nixos";
