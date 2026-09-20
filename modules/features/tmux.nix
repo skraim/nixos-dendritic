@@ -1,6 +1,6 @@
 { self, inputs, ... }: {
   flake.nixosModules.tmux = { config, pkgs, ... }: {
-    environment.systemPackages = with pkgs; [
+    environment.systemPackages = [
       self.packages.${pkgs.stdenv.hostPlatform.system}.tmux
     ];
 
@@ -23,7 +23,7 @@
           - window_name: todo
             panes:
               - shell_command:
-                - cmd: nvim ~/todos/setup.todo.md
+                - cmd: nvim ~/documents/todos/setup.todo.md
       '';
     };
   };

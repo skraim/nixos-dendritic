@@ -16,7 +16,7 @@
         tx = "tmux";
         gd = "cd ~/Downloads";
         ge = "cd /run/media/$USER";
-        gp = "cd ~/Pictures";
+        gp = "cd ~/pictures";
         v = "nvim";
         fd = "fd --hidden";
         rg = "rg --hidden";

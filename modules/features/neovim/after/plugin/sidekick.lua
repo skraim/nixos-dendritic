@@ -1,4 +1,5 @@
 local haunt_sk = require("haunt.sidekick")
+local sk_cli = require("sidekick.cli")
 require('sidekick').setup({
   nes = {
     enabled = false,
@@ -14,7 +15,7 @@ require('sidekick').setup({
         return haunt_sk.get_locations()
       end,
       haunt_buffer = function()
-        return haunt_sk.get_locations({ name = "codex", current_buffer = true })
+        return haunt_sk.get_locations({ current_buffer = true })
       end,
     },
   }
@@ -25,22 +26,24 @@ local map = function(keys, func, desc, mode)
   vim.keymap.set(mode, keys, func, { desc = '[A]I: ' .. desc })
 end
 
-map("<leader>aa", function()
-  require("sidekick.cli").toggle({ name = "codex", focus = true })
-end, "Toggle [A]I")
+map(
+  "<leader>aa",
+  function() sk_cli.toggle({ focus = true, filter = { installed = true } }) end,
+  "Toggle [A]I"
+)
 
 map("<leader>at", function()
-  require("sidekick.cli").send({ name = "codex", focus = true, msg = "{this}" })
+  sk_cli.send({ focus = true, filter = { installed = true }, msg = "{this}" })
 end, "Send [T]his", { "x", "n" })
 
 map("<leader>af", function()
-  require("sidekick.cli").send({ name = "codex", focus = true, msg = "{file}" })
+  sk_cli.send({ focus = true, filter = { installed = true }, msg = "{file}" })
 end, "Send [F]ile")
 
 map("<leader>av", function()
-  require("sidekick.cli").send({ name = "codex", focus = true, msg = "{selection}" })
+  sk_cli.send({ focus = true, filter = { installed = true }, msg = "{selection}" })
 end, "Send [V]isual Selection", "x")
 
 map("<leader>ap", function()
-  require("sidekick.cli").prompt()
+  sk_cli.prompt()
 end, "Select [P]rompt", { "n", "x" })

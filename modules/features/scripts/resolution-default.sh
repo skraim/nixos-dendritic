@@ -5,4 +5,4 @@ hyprctl eval '
 '
 
 sleep 2;
-matugen image "$(find ~/Pictures/wallpapers -type f | shuf -n 1)" --source-color-index 0
+matugen image "$(find ~/pictures/wallpapers -type f | shuf -n 1)" --source-color-index 0

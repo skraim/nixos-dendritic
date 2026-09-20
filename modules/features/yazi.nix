@@ -189,7 +189,7 @@
                 { on = [ "g" "c" ]; run = "cd ~/.config"; desc = "Go to the config directory"; }
                 { on = [ "g" "d" ]; run = "cd ~/Downloads"; desc = "Go to the downloads directory"; }
                 { on = [ "g" "e" ]; run = "cd /run/media/$USER"; desc = "Go to external storage devices"; }
-                { on = [ "g" "p" ]; run = "cd ~/Pictures"; desc = "Go to Pictures"; }
+                { on = [ "g" "p" ]; run = "cd ~/pictures"; desc = "Go to Pictures"; }
                 { on = [ "g" "<Space>" ]; run = "cd --interactive"; desc = "Go to a directory interactively"; }
 
                 # Tabs

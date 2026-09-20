@@ -1,11 +1,17 @@
-{ self, inputs, ... }: {
-  flake.nixosModules.telegram = { pkgs, ... }: {
+{ ... }: {
+  flake.nixosModules.telegram = { pkgs, config, ... }: {
     environment.systemPackages = [
       pkgs.telegram-desktop
     ];
 
-    # persistance.cache.directories = [
-    #   ".local/share/TelegramDesktop"
-    # ];
+    preservation = {
+      preserveAt."/persistent" = {
+        users.${config.preferences.user.name} = {
+          directories = [
+            ".local/share/TelegramDesktop"
+          ];
+        };
+      };
+    };
   };
 }

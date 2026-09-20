@@ -36,7 +36,7 @@
 
     hjem.users.${user} = {
       # credits: u/NGB_UF @ reddit.com
-      files."Pictures/wallpapers/nixos-wall.png".source = ./wallpaper/nixos-wall.png;
+      files."pictures/wallpapers/nixos-wall.png".source = ./wallpaper/nixos-wall.png;
     };
 
     qt.enable = true;

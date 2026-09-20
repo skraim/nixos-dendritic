@@ -14,5 +14,15 @@
       maven
       self.packages.${pkgs.stdenv.hostPlatform.system}.dep
     ];
+
+    preservation = {
+      preserveAt."/persistent" = {
+        users.${config.preferences.user.name} = {
+          directories = [
+            "aem"
+          ];
+        };
+      };
+    };
   };
 }

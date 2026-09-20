@@ -218,7 +218,7 @@ Scope {
 
             } else if (grp === "screen") {
                 const ts    = "$(date +%F_%H-%M-%S)"
-                const shots = "$HOME/Pictures/Screenshots"
+                const shots = "$HOME/pictures/screenshots"
                 const shotFile = `${shots}/${ts}-shot.png`
                 const screenshotAppName = win.shellQuote(Localization.t("notifications.screenshot.appName", "Screenshot"))
                 const cancelledTitle = win.shellQuote(Localization.t("notifications.screenshot.cancelled.title", "Screenshot cancelled"))

@@ -9,7 +9,7 @@
     hl.exec_cmd("systemctl --user start hypridle")
     hl.exec_cmd("systemctl --user start kanshi")
     hl.exec_cmd("quickshell")
-    hl.exec_cmd("sleep 1; ${lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.matugen} image \"$(find ~/Pictures/wallpapers -type f,l | shuf -n 1)\" --source-color-index 0")
+    hl.exec_cmd("sleep 1; ${lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.matugen} image \"$(find ~/pictures/wallpapers -type f,l | shuf -n 1)\" --source-color-index 0")
     hl.exec_cmd("${lib.getExe pkgs.telegram-desktop}")
     hl.exec_cmd("${lib.getExe' pkgs.wl-clipboard "wl-paste"} --type text --watch cliphist store")
     hl.exec_cmd("${lib.getExe' pkgs.wl-clipboard "wl-paste"} --type image --watch cliphist store")

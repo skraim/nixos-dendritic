@@ -16,7 +16,7 @@
             language = lib.mkOption { type = lib.types.enum [ "en" "ua" ]; default = "en"; };
             custom_scripts_path = lib.mkOption { type = lib.types.str; default = "~/scripts"; };
             cache_path = lib.mkOption { type = lib.types.str; default = "~/.cache/quickshell"; };
-            wallpapers_path = lib.mkOption { type = lib.types.str; default = "~/Pictures/wallpapers"; };
+            wallpapers_path = lib.mkOption { type = lib.types.str; default = "~/pictures/wallpapers"; };
             active_wallpaper_cmd = lib.mkOption { type = lib.types.str; default = "awww query -j | jq -r 'first(.[].[]?.displaying.image // empty)'"; };
             wallpaper_cmd_dark = lib.mkOption { type = lib.types.str; default = "matugen image $@ --source-color-index $((RANDOM % $(matugen image $@ --show-source-colors | wc -l)))"; };
             wallpaper_cmd_light = lib.mkOption { type = lib.types.str; default = "matugen image $@ --source-color-index $((RANDOM % $(matugen image $@ --show-source-colors | wc -l))) -m light"; };

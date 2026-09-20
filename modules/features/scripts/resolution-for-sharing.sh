@@ -5,4 +5,4 @@ hyprctl eval '
 '
 
 sleep 2;
-matugen image ~/Pictures/wallpapers/wp12329531-nixos-wallpapers.png --source-color-index 0
+matugen image ~/pictures/wallpapers/wp12329531-nixos-wallpapers.png --source-color-index 0

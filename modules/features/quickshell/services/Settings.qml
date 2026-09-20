@@ -15,7 +15,7 @@ Singleton {
     property string defaultAudioSink:   ""
     property string customScriptsPath:  "~/scripts"
     property string cachePath:          "~/.cache/quickshell"
-    property string wallpapersPath:     "~/Pictures/wallpapers"
+    property string wallpapersPath:     "~/pictures/wallpapers"
     property string activeWallpaperCmd: "awww query -j | jq -r 'first(.[].[]?.displaying.image // empty)'"
     property string wallpaperCmdDark:   "wal --cols16 lighten -i $@ -n -o ~/scripts/post-pywal.sh"
     property string wallpaperCmdLight:  "wal -l -i $@ -n -o ~/scripts/post-pywal.sh"
