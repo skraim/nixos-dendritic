@@ -1,5 +1,9 @@
-{ self, inputs, ... }: {
-  flake.nixosModules.pipewire = { pkgs, ... }: {
+{...}: {
+  flake.nixosModules.pipewire = {
+    config,
+    pkgs,
+    ...
+  }: {
     services = {
       pipewire = {
         enable = true;
@@ -12,13 +16,13 @@
           enable = true;
           configPackages = [
             (pkgs.writeTextDir "share/wireplumber/wireplumber.conf.d/51-mitigate-annoying-profile-switch.conf" ''
-            wireplumber.settings = {
-              bluetooth.autoswitch-to-headset-profile = false
-            }
+              wireplumber.settings = {
+                bluetooth.autoswitch-to-headset-profile = false
+              }
 
-            monitor.bluez.properties = {
-              bluez5.roles = [ a2dp_sink a2dp_source ]
-            }
+              monitor.bluez.properties = {
+                bluez5.roles = [ a2dp_sink a2dp_source ]
+              }
             '')
           ];
         };
@@ -27,10 +31,10 @@
             "pulse.rules" = [
               {
                 matches = [
-                  { "application.process.binary" = "~.*"; }
+                  {"application.process.binary" = "~.*";}
                 ];
                 actions = {
-                  quirks = [ "block-source-volume" ];
+                  quirks = ["block-source-volume"];
                 };
               }
             ];
@@ -42,5 +46,15 @@
     environment.systemPackages = with pkgs; [
       pavucontrol
     ];
+
+    preservation = {
+      preserveAt."/persistent" = {
+        users.${config.preferences.user.name} = {
+          directories = [
+            ".local/state/wireplumber"
+          ];
+        };
+      };
+    };
   };
 }

@@ -60,7 +60,7 @@
           }
         ];
 
-        users.artem = {
+        users.${config.preferences.user.name} = {
           directories = [
             "pictures"
             "projects"

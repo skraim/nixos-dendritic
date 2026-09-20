@@ -1,5 +1,9 @@
-{ self, ... }: {
-  flake.nixosModules.general = { config, pkgs, ... }: let
+{self, ...}: {
+  flake.nixosModules.general = {
+    config,
+    pkgs,
+    ...
+  }: let
     user = config.preferences.user.name;
   in {
     imports = [
@@ -25,6 +29,8 @@
       isNormalUser = true;
       description = "${user}";
       extraGroups = ["networkmanager" "wheel" "dialout" "ydotool"];
+
+      hashedPasswordFile = "/persistent/passwd";
       initialPassword = "12345";
     };
 
@@ -82,6 +88,16 @@
       udisks2.enable = true;
       gnome.gnome-keyring.enable = true;
       libinput.enable = true;
+    };
+
+    preservation = {
+      preserveAt."/persistent" = {
+        users.${user} = {
+          directories = [
+            ".local/state/lazygit"
+          ];
+        };
+      };
     };
   };
 }
