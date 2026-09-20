@@ -1,4 +1,9 @@
-{ self, pkgs, lib }:
+{
+  self,
+  pkgs,
+  lib,
+}:
+#lua
 ''
   hl.on("hyprland.start", (function ()
     hl.exec_cmd("dbus-update-activation-environment --all --systemd")
@@ -30,4 +35,3 @@
   end
   ))
 ''
-# hl.exec_cmd("pkill ${lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.kanshi}; ${lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.kanshi}")

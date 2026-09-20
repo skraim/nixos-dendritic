@@ -19,6 +19,7 @@
           directories = [
             ".config/PrusaSlicer"
             ".config/OrcaSlicer"
+            ".config/FreeCAD"
           ];
         };
       };
